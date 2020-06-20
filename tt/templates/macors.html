@@ -1,0 +1,44 @@
+{% macro player_card(player) %}
+<div class="card">
+    <div class="title">
+        <i class="fa fa-user-circle">{{ player.name}}</i>
+        <i class="fa fa-line-chart "  id= 'rank-number' aria-hidden="true">+{{ player.rank}}</i>
+        <i class="rank"></i>
+
+
+    </div>
+    <div class="back-comment">
+        <p>{{ player.backup }}</p>
+    </div>
+    <div class="user">
+        <button type="button" class="btn btn-link"></button>发布者:{{ player.user.name}}
+        <button type="button" class="btn btn-link"></button>发布时间:{{ moment(player.timestamp).fromNow() }}
+        <button type="button" class="buy-button btn btn-success">
+            {%if current_user.is_authenticated %}
+                微信号：{{ player.user.weixin}}
+            {% else %}
+                微信号：登录可见
+            {% endif %}
+        </button>
+    </div>
+</div>
+{% endmacro %}
+
+
+{% macro player_card2(player) %}
+<div class="card">
+    <div class="title">
+        <i class="fa fa-user-circle">{{ player.name}}</i>
+        <i class="fa fa-line-chart" aria-hidden="true">+{{ player.rank}}</i>
+    </div>
+    <div class="back-comment">
+        <p>{{ player.backup }}</p>
+    </div>
+    <div class="user">
+        <button type="button" class="btn btn-link">发布时间:{{ moment(player.timestamp).fromNow() }}</button>
+        <a href="{{ url_for('main.delete_player',player_id=player.id) }}" style="float: right">删除</a>
+    </div>
+</div>
+{% endmacro %}
+
+

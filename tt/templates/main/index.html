@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% from 'macors.html' import player_card with context %}
+{% from 'bootstrap/pagination.html' import render_pagination %}
+
+{% block content %}
+<main>
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-8">
+                <div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
+                    <div class="btn-group" role="group" aria-label="First group">
+                        <form class="form-inline my-2 my-lg-0" action="{{ url_for('main.index') }}">
+                            <button type="submit" class="btn btn-secondary">最新</button>
+                        </form>
+
+                    </div>
+                    <div class="input-group">
+                        <form class="form-inline my-2 my-lg-0" action="{{ url_for('main.search') }}">
+                            <div class="input-group-prepend">
+                                <button type="submit" class="btn btn-secondary">搜索</button>
+                            </div>
+                            <input type="text" name="q" class="form-control" placeholder="球员名称；等级" aria-label="Input group example"
+                                   aria-describedby="btnGroupAddon2">
+                        </form>
+                    </div>
+                </div>
+
+                <div class="cards">
+                    {% if players %}
+                        {% for player in players %}
+                         {{ player_card(player) }}
+                        {% endfor %}
+                    {% endif %}
+
+                </div>
+                {% if players %}
+                <div class="page-footer">
+                    {{ render_pagination(pagination, align='center') }}
+                </div>
+                {% endif %}
+            </div>
+            <div class="col-md-4">
+                 {% if current_user.is_authenticated %}
+                <div class="cards">
+                    <div class="card" style="width: 18rem;">
+
+                        <div class="card-body">
+                            <h4 class="card-title">{{ user.name }}</h4>
+                            <p class="card-text"><i class="fa fa-weixin" aria-hidden="true"></i> {{ user.weixin }}</p>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+
+                             <i class="fa fa-futbol-o" aria-hidden="true"></i>   <a href="{{ url_for('main.publish_player') }}">发布球员</a></li>
+                        </ul>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+
+                             <i class="fa fa-file-text" aria-hidden="true"></i>   <a href="{{ url_for('main.show_player') }}">我发布的球员</a></li>
+                        </ul>
+                    </div>
+                </div>
+                {% endif %}
+
+                <div class="cards">
+                    <div class="card" style="width: 18rem;">
+                         <div class="card-body">
+                            <h5 class="card-title">网站公告</h5>
+                            <p class="card-text">{{ website.infomation }}</p>
+                             <a href="{{url_for('main.send_advice')}}" title="提出您对本网站的宝贵意见">反馈建议</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</main>
+
+{% endblock %}

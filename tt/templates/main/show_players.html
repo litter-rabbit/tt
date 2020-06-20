@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% from 'macors.html' import player_card2 with context %}
+{% from 'bootstrap/pagination.html' import render_pagination %}
+
+{% block content %}
+<main>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="cards">
+                    {% if players %}
+                        {%for player in players %}
+                            {{ player_card2(player) }}
+                        {%endfor %}
+                    {%else %}
+                    <p>你还没发布任何球员</p>
+                    {%endif %}
+                </div>
+
+                {% if players %}
+                <div class="page-footer">
+                    {{ render_pagination(pagination, align='center') }}
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="col-md-4">
+                <div class="cards">
+                    <div class="card" style="width: 18rem;">
+
+                        <div class="card-body">
+                            <h5 class="card-title">{{ current_user.name }}</h5>
+                            <p class="card-text"><i class="fa fa-weixin" aria-hidden="true"></i> {{ current_user.weixin }}</p>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item"><i class="fa fa-star" aria-hidden="true"></i> <a
+                                    href="{{ url_for('main.publish_player') }}">发布球员</a></li>
+
+                        </ul>
+                        <div class="card-body">
+                            <a href="{{ url_for('main.show_player') }}" class="card-link"><i class="fa fa-history" aria-hidden="true"></i> 我发布的球员</a>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</main>
+
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% from 'bootstrap/pagination.html' import render_pagination %}
+
+{% block content %}
+<div class="jumbotron">
+    <div class="row">
+        <div class="col-md-2">
+            <form action="{{ url_for('admin.manage_user') }}">
+                <button type="submit" class="btn btn-primary btn-lg btn-block">用户管理</button>
+            </form>
+            <form action="{{ url_for('admin.manage_player') }}">
+                <button type="submit" class="btn btn-secondary btn-lg btn-block">球员发布管理</button>
+            </form>
+            <form action="{{url_for('admin.manage_website')}}">
+                <button type="submit" class="btn btn-success btn-lg btn-block">网站管理</button>
+            </form>
+            <form action="{{url_for('admin.manage_advice')}}">
+                <button type="submit" class="btn btn-success btn-lg btn-block">收件箱</button>
+            </form>
+
+        </div>
+
+        <div class="col-md-10">
+            <div class="page-header">
+                <h1>球员
+                    <small class="text-muted">{{ pagination.total }}</small>
+                </h1>
+            </div>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>内容</th>
+                    <th>发送者</th>
+                    <th>发送者邮箱</th>
+                    <th>发布时间</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                {% for advice in advices %}
+                <tr>
+                    <td>{{ loop.index + ((page - 1) * config.TT_ARTICLE_PER_PAGE) }}</td>
+                    <td>{{ advice.body|truncate(15) }}</td>
+                    <td>{{ advice.username }}</td>
+                    <td>{{ advice.email }}</td>
+                    <td>{{ moment(advice.timestamp).format('LL') }}</td>
+                    <td>
+
+                        {% if advice.is_read %}
+                        <a class="profile-popover btn btn-success btn-sm"
+                           data-href="{{url_for('ajax.get_advice',advice_id=advice.id)}}">已阅</a>
+                        {% else %}
+                        <a class="profile-popover btn btn-danger btn-sm"
+                           data-href="{{url_for('ajax.get_advice',advice_id=advice.id)}}">阅读</a>
+                        {% endif %}
+
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+            {% if advices %}
+            <div class="page-footer">
+                {{ render_pagination(pagination, align='center') }}
+            </div>
+            {% endif %}
+        </div>
+
+    </div>
+</div>
+
+
+{% endblock %}

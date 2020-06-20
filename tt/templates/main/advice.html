@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% from 'bootstrap/form.html' import render_form %}
+
+{% block content %}
+<div class="container">
+    <div class="row ">
+            <div class="page-header">
+                <h4>提出关于本网站功能，管理的宝贵建议</h4>
+            </div>
+            <div class="col-8">
+                 {{ render_form(form) }}
+            </div>
+            <div class="col-4">
+
+            </div>
+
+    </div>
+</div>
+
+
+{% endblock %}

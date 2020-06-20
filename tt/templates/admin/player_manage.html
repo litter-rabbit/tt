@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% from 'bootstrap/pagination.html' import render_pagination %}
+
+{% block content %}
+<div class="jumbotron">
+    <div class="row">
+        <div class="col-md-2">
+            <form action="{{ url_for('admin.manage_user') }}">
+                <button type="submit" class="btn btn-primary btn-lg btn-block">用户管理</button>
+            </form>
+            <form action="{{ url_for('admin.manage_player') }}">
+                <button type="submit" class="btn btn-secondary btn-lg btn-block">球员发布管理</button>
+            </form>
+            <form action="{{url_for('admin.manage_website')}}">
+                <button type="submit" class="btn btn-success btn-lg btn-block">网站管理</button>
+            </form>
+               <form action="{{url_for('admin.manage_advice')}}">
+                <button type="submit" class="btn btn-success btn-lg btn-block">收件箱</button>
+            </form>
+
+        </div>
+
+
+        <div class="col-md-10">
+               <form class="form-inline my-2 my-lg-0" action="{{url_for('admin.search_player')}}">
+                        <div class="input-group-prepend">
+                            <button type="submit" class="btn btn-secondary">搜索</button>
+                        </div>
+                        <input type="text" name="q" class="form-control" placeholder="球员名称；等级" aria-label="Input group example"
+                               aria-describedby="btnGroupAddon2">
+               </form>
+            <div class="page-header">
+                <h1>球员
+                    <small class="text-muted">{{ pagination.total }}</small>
+                </h1>
+            </div>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>名称</th>
+                    <th>等级</th>
+                    <th>发布者</th>
+                    <th>发布者微信号</th>
+                    <th>发布时间</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                {% for player in players %}
+                <tr>
+                    <td>{{ loop.index + ((page - 1) * config.TT_ARTICLE_PER_PAGE) }}</td>
+                    <td>{{ player.name }}</td>
+                    <td>{{ player.rank }}</td>
+                    <td>{{ player.user.name }}</td>
+                    <td>{{ player.user.weixin }}</td>
+                    <td>{{ moment(player.timestamp).format('LL') }}</td>
+                    <td>
+                        <form class="inline" method="post"
+                              action="{{ url_for('admin.delete_player',player_id=player.id)}}">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?');" >删除</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+             {% if players %}
+            <div class="page-footer">
+                {{ render_pagination(pagination, align='center') }}
+            </div>
+            {% endif %}
+        </div>
+
+    </div>
+</div>
+
+
+{% endblock %}

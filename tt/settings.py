@@ -20,6 +20,8 @@ class Operation:
 class BaseConfig():
     SECRET_KEY='lrabbit'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+    ADMIN_EMAIL='709343607@qq.com'
     #mail
     MAIL_SERVER = 'smtp.qq.com'
     TT_MAIL_SUBJECT_PREFIX='TT'

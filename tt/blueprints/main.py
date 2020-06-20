@@ -78,6 +78,7 @@ def search():
     per_page=current_app.config['TT_ARTICLE_PER_PAGE']
     if q == '':
         flash('请输入球员的名称或者等级.', 'warning')
+        return  redirect(url_for('main.index'))
     elif q<'9' and q>'0':
         pagination=Player.query.filter_by(rank=int(q)).order_by(Player.timestamp.desc()).paginate(page,per_page)
     elif q=='10':

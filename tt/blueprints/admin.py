@@ -77,18 +77,21 @@ def manage_website():
 
 
 
-
-
 @admin_bp.route('delete/user/<user_id>',methods=['POST'])
 @login_required
 @admin_required
 def delete_user(user_id):
 
     user=User.query.filter_by(id=user_id).first_or_404()
+    if user.is_admin:
+        flash('管理员不可删除')
+        return redirect(url_for('.manage_user'))
     db.session.delete(user)
     db.session.commit()
     flash('删除成功','success')
     return redirect(url_for('.manage_user'))
+
+
 
 
 @admin_bp.route('delete/player/<player_id>',methods=['POST'])
@@ -109,6 +112,9 @@ def delete_player(player_id):
 def search_user():
 
     q = request.args.get('q', '')
+    if q=='':
+        flash('请输入搜索的用户名或者微信号','waring')
+        return redirect(url_for('admin.manage_user'))
     page=request.args.get('page',1)
     per_page=current_app.config['TT_ARTICLE_PER_PAGE']
 
@@ -125,10 +131,12 @@ def search_user():
 def search_player():
 
     q = request.args.get('q', '')
+
     page=request.args.get('page',1)
     per_page=current_app.config['TT_ARTICLE_PER_PAGE']
     if q == '':
         flash('请输入球员的名称或者等级.', 'warning')
+        return redirect(url_for('admin.manage_player'))
     elif q<'9' and q>'0':
         pagination=Player.query.filter_by(rank=int(q)).order_by(Player.timestamp.desc()).paginate(page,per_page)
     elif q=='10':

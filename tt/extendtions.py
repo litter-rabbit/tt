@@ -8,7 +8,7 @@ from flask_mail import Mail
 from flask_moment import Moment
 from flask_whooshee import Whooshee
 from flask_wtf import CSRFProtect
-
+from flask_migrate import Migrate
 
 
 
@@ -20,6 +20,7 @@ mail=Mail()
 moment=Moment()
 whooshee=Whooshee()
 csrf = CSRFProtect()
+migrate=Migrate()
 
 
 

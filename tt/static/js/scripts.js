@@ -17,8 +17,7 @@ $(function () {
             var IS_JSON = true;
             try {
                 var data = JSON.parse(request.responseText);
-            }
-            catch (err) {
+            } catch (err) {
                 IS_JSON = false;
             }
             if (IS_JSON && data !== undefined && data.hasOwnProperty('message')) {
@@ -90,6 +89,29 @@ $(function () {
             }, 200);
         }
     }
+
+    function scrollcontrol() {
+        var pre = 0;
+        window.addEventListener('scroll', winScroll);
+
+        function winScroll(e) {
+
+            var now = $(window).scrollTop();
+            if (now > pre) {
+                $(".navbar").removeClass("SlideUp");
+                $(".navbar").addClass("SlideDown");
+
+
+            } else {
+                $(".navbar").removeClass("SlideDown");
+                $(".navbar").addClass("SlideUp");
+
+            }
+            pre = now;
+        }
+    }
+
+    scrollcontrol()
 
     $('.profile-popover').hover(show_profile_popover.bind(this), hide_profile_popover.bind(this));
 

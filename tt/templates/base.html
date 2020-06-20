@@ -16,13 +16,14 @@
               var s = document.getElementsByTagName("script")[0];
               s.parentNode.insertBefore(hm, s);
             })();
+
     </script>
 </head>
 <body>
 {% block nav%}
 <nav id="narbar" class="navbar navbar-expand-lg navbar-light" style="background-color: #FFFFFF;">
 
-    <a class="navbar-brand" href="#">
+    <a class="navbar-brand" href="{{url_for('main.index')}}">
         <svg width="96" height="30" xmlns="http://www.w3.org/2000/svg">
             <g>
                 <title>background</title>
@@ -76,6 +77,7 @@
     </div>
 </nav>
 {% endblock nav%}
+
 
 
 {% for message in get_flashed_messages(with_categories=True) %}

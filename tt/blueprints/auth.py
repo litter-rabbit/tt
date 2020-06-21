@@ -56,7 +56,7 @@ def login():
         else:
             flash('账号或者密码错误','danger')
 
-        return redirect(url_for('main.index'))
+        return redirect(url_for('auth.login'))
 
     return render_template('auth/login.html',form=form)
 

@@ -24,12 +24,11 @@
 
 {% macro player_card2(player) %}
 <div class="card">
-    <div class="title">
-        <i class="fa fa-user-circle">{{ player.name}}</i>
-        <i class="fa fa-line-chart" aria-hidden="true">+{{ player.rank}}</i>
-    </div>
-    <div class="back-comment">
-        <p>{{ player.backup }}</p>
+      <div class="title">
+        <span><span class="title-tag"> 球员名称:</span>{{ player.name}}</span>
+        <span class="backup-detail" ><span class="title-tag"> 备注:</span>{{ player.backup }}</span>
+         {% set file_name = 'image/' ~ player.rank~'.png' %}
+         <img class="rank-img" style="float: right" src="{{ url_for('static',filename=file_name) }}">
     </div>
     <div class="user">
         <button type="button" class="btn btn-link">发布时间:{{ moment(player.timestamp).fromNow() }}</button>

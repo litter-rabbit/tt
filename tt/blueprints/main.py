@@ -108,3 +108,8 @@ def send_advice():
 
 
     return render_template('main/advice.html',form=form)
+
+@main_bp.route('/user_guide')
+def user_guide():
+
+    return render_template('main/user_guide.html')

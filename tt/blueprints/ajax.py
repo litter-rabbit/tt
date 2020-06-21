@@ -27,3 +27,8 @@ def get_advice(advice_id):
     advice.is_read=True
     db.session.commit()
     return render_template('admin/advice_popup.html',advice=advice)
+
+@ajax_bp.route('weixin/get')
+def get_weixin():
+
+    return render_template('main/weixin_popup.html')

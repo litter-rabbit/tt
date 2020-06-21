@@ -91,7 +91,7 @@ def forget_password():
         flash('请验证你的邮箱')
 
 
-    return render_template('auth/forgetpassword.html')
+    return render_template('auth/forgetpassword.html',form=form)
 
 
 @auth_bp.route('/resetpasswordd/<token>',methods=['GET','POST'])

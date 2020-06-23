@@ -25,17 +25,55 @@ def index():
     website = Website.query.order_by(Website.timestamp.desc()).first()
     return render_template('main/index.html',pagination=pagination,players=players,user=user,website=website)
 
+@main_bp.route('/buy')
+def buy():
+    per_page = current_app.config['TT_ARTICLE_PER_PAGE']
+    user=None
+    if current_user.is_authenticated:
+        user=User.query.filter_by(name=current_user.name).first()
+
+    page=request.args.get('page',1)
+    pagination=Player.query.filter_by(is_buy=True).order_by(Player.timestamp.desc()).paginate(page,per_page)
+    players=pagination.items
+    website = Website.query.order_by(Website.timestamp.desc()).first()
+    return render_template('main/index.html',pagination=pagination,players=players,user=user,website=website)
+
+@main_bp.route('/sell')
+def sell():
+    per_page = current_app.config['TT_ARTICLE_PER_PAGE']
+    user=None
+    if current_user.is_authenticated:
+        user=User.query.filter_by(name=current_user.name).first()
+
+    page=request.args.get('page',1)
+    pagination=Player.query.filter_by(is_buy=False).order_by(Player.timestamp.desc()).paginate(page,per_page)
+    players=pagination.items
+    website = Website.query.order_by(Website.timestamp.desc()).first()
+    return render_template('main/index.html',pagination=pagination,players=players,user=user,website=website)
+
 
 @main_bp.route('/publish_player',methods=['GET','POST'])
 @login_required
 def publish_player():
 
     form=PlayerForm()
+    is_buy=False
     if form.validate_on_submit():
         name=form.name.data
         rank=form.rank.data
         backup=form.backup.data
-        player=Player(name=name,rank=rank,backup=backup)
+        area=form.area.data
+        if area==1:
+            area='华东电信'
+        elif area==2:
+            area='华南电信'
+        elif area==3:
+            area='西南电信'
+        else:
+            area='华北联通'
+        if form.is_buy.data ==1:
+            is_buy=True
+        player=Player(name=name,rank=rank,backup=backup,area=area,is_buy=is_buy)
         current_user.players.append(player)
         db.session.commit()
         flash('发布成功','success')

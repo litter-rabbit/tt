@@ -6,7 +6,20 @@
 <main class="main">
     <div class="container">
         <div id="brandtitle" class="row">
-            <span id="websitetitle">TT网  FIFA Online3 交易信息平台</span>
+
+
+            <div  class="input-group">
+                <form id="search_group" class="form-inline my-2 my-lg-0" action="{{ url_for('main.search') }}">
+                    <div class="input-group-prepend">
+                        <button type="submit" class="btn btn-secondary">搜索</button>
+                    </div>
+                    <input style="width: 350px" id="search-input" type="text" name="q" class="form-control" placeholder="球员名称；等级; 大区"
+                           aria-label="Input group example"
+                           aria-describedby="btnGroupAddon2">
+                </form>
+            </div>
+
+
         </div>
         <div class="row">
             <div class="col-md-8">
@@ -15,26 +28,20 @@
                         <form class="form-inline my-2 my-lg-0" action="{{ url_for('main.index') }}">
                             <button type="submit" class="btn btn-secondary">最新</button>
                         </form>
-
-                    </div>
-                    <div class="input-group">
-                        <form class="form-inline my-2 my-lg-0" action="{{ url_for('main.search') }}">
-                            <div class="input-group-prepend">
-                                <button type="submit" class="btn btn-secondary">搜索</button>
-                            </div>
-                            <input type="text" name="q" class="form-control" placeholder="球员名称；等级" aria-label="Input group example"
-                                   aria-describedby="btnGroupAddon2">
+                         <form class="form-inline my-2 my-lg-0" action="{{ url_for('main.buy') }}">
+                            <button type="submit" class="btn btn-secondary">出售</button>
+                        </form>
+                         <form class="form-inline my-2 my-lg-0" action="{{ url_for('main.sell') }}">
+                            <button type="submit" class="btn btn-secondary">收购</button>
                         </form>
                     </div>
                 </div>
-
                 <div class="cards">
                     {% if players %}
-                        {% for player in players %}
-                         {{ player_card(player) }}
-                        {% endfor %}
+                    {% for player in players %}
+                    {{ player_card(player) }}
+                    {% endfor %}
                     {% endif %}
-
                 </div>
                 {% if players %}
                 <div class="page-footer">
@@ -43,23 +50,26 @@
                 {% endif %}
             </div>
             <div class="col-md-4">
-                 {% if current_user.is_authenticated %}
+                {% if current_user.is_authenticated %}
                 <div class="cards">
                     <div class="card" style="width: 18rem;">
 
                         <div class="card-body">
                             <h4 class="card-title">{{ user.name }}</h4>
-                            <p class="card-text"><i class="fa fa-weixin" aria-hidden="true"></i> {{ user.weixin }}</p>
+                            <p class="card-text"><i class="fa fa-weixin" aria-hidden="true"></i> {{ user.weixin }} </p>
+                             <p class="card-text"><i class="fa fa-star" aria-hidden="true"></i> 积分： {{ user.points }} </p>
                         </div>
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">
 
-                             <i class="fa fa-futbol-o" aria-hidden="true"></i>   <a href="{{ url_for('main.publish_player') }}">发布球员</a></li>
+                                <i class="fa fa-futbol-o" aria-hidden="true"></i> <a
+                                    href="{{ url_for('main.publish_player') }}">出售或收购球员</a></li>
                         </ul>
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">
 
-                             <i class="fa fa-file-text" aria-hidden="true"></i>   <a href="{{ url_for('main.show_player') }}">我发布的球员</a></li>
+                                <i class="fa fa-file-text" aria-hidden="true"></i> <a
+                                    href="{{ url_for('main.show_player') }}">我的球员</a></li>
                         </ul>
                     </div>
                 </div>
@@ -67,10 +77,10 @@
 
                 <div class="cards">
                     <div class="card" style="width: 18rem;">
-                         <div class="card-body">
+                        <div class="card-body">
                             <h5 class="card-title">网站公告</h5>
                             <p class="card-text">{{ website.infomation }}</p>
-                             <a href="{{url_for('main.send_advice')}}" title="提出您对本网站的宝贵意见">反馈建议</a>
+                            <a href="{{url_for('main.send_advice')}}" title="提出您对本网站的宝贵意见">反馈建议</a>
                         </div>
                     </div>
                 </div>

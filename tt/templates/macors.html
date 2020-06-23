@@ -1,34 +1,64 @@
 {% macro player_card(player) %}
 <div class="card">
     <div class="title">
-        <span><span class="title-tag"> 球员名称:</span>{{ player.name}}</span>
-        <span class="backup-detail" ><span class="title-tag"> 备注:</span>{{ player.backup }}</span>
-         {% set file_name = 'image/' ~ player.rank~'.png' %}
-         <img class="rank-img" style="float: right" src="{{ url_for('static',filename=file_name) }}">
+        <div class="row">
+            <div class="col-9">
+                <div class="row">
+                    <div class="col col-title">
+                        <span><span class="title-tag"> 球员名称:</span>{{ player.name}}</span>
+                    </div>
+                    <div class="col col-title">
+                        <span><span class="title-tag">大区:</span>{{ player.area }}</span>
+                    </div>
+                    <div class="col col-title">
+                        <span><span class="title-tag"> 发布者:</span>{{ player.user.name }}</span>
+                    </div>
+                    <div class="col col-title">
+                        <span><span class="title-tag"> 时间:</span>{{ moment(player.timestamp).fromNow()}}</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <button type="button" class="weixin-button buy-button btn btn-success">
+                            {%if current_user.is_authenticated %}
+                            微信号：{{ player.user.weixin}}
+                            {% else %}
+                            微信号：登录可见
+                            {% endif %}
+                        </button>
+                        <div class="backup">
+                            <span id="backup">备注:{{ player.backup}}</span>
+                        </div>
+
+                    </div>
+
+
+
+                </div>
+
+
+            </div>
+            <div class="col-3">
+                {% set file_name = 'image/' ~ player.rank~'.png' %}
+                <img class="rank-img" style="float: right" src="{{ url_for('static',filename=file_name) }}">
+
+            </div>
+
+        </div>
+
     </div>
 
-    <div class="user">
-        <button type="button" class="btn btn-link"></button>发布者:{{ player.user.name}}
-        <button type="button" class="btn btn-link"></button>发布时间:{{ moment(player.timestamp).fromNow() }}
-        <button type="button" class="buy-button btn btn-success">
-            {%if current_user.is_authenticated %}
-                微信号：{{ player.user.weixin}}
-            {% else %}
-                微信号：登录可见
-            {% endif %}
-        </button>
-    </div>
 </div>
 {% endmacro %}
 
 
 {% macro player_card2(player) %}
 <div class="card">
-      <div class="title">
+    <div class="title">
         <span><span class="title-tag"> 球员名称:</span>{{ player.name}}</span>
-        <span class="backup-detail" ><span class="title-tag"> 备注:</span>{{ player.backup }}</span>
-         {% set file_name = 'image/' ~ player.rank~'.png' %}
-         <img class="rank-img" style="float: right" src="{{ url_for('static',filename=file_name) }}">
+        <span class="backup-detail"><span class="title-tag"> 备注:</span>{{ player.backup }}</span>
+        {% set file_name = 'image/' ~ player.rank~'.png' %}
+        <img class="rank-img" style="float: right" src="{{ url_for('static',filename=file_name) }}">
     </div>
     <div class="user">
         <button type="button" class="btn btn-link">发布时间:{{ moment(player.timestamp).fromNow() }}</button>

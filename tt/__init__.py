@@ -39,7 +39,7 @@ def  register_extendtions(app):
     moment.init_app(app)
     whooshee.init_app(app)
     csrf.init_app(app)
-    migrate.init_app(app)
+    migrate.init_app(app,db)
 
 
 

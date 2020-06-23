@@ -137,7 +137,7 @@ def search_player():
     if q == '':
         flash('请输入球员的名称或者等级.', 'warning')
         return redirect(url_for('admin.manage_player'))
-    elif q<'9' and q>'0':
+    elif q<='9' and q>'0':
         pagination=Player.query.filter_by(rank=int(q)).order_by(Player.timestamp.desc()).paginate(page,per_page)
     elif q=='10':
         pagination = Player.query.filter_by(rank=int(q)).order_by(Player.timestamp.desc()).paginate(page, per_page)

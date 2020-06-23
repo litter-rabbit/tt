@@ -105,6 +105,30 @@ def delete_player(player_id):
     flash('删除成功','success')
     return redirect(url_for('.manage_player'))
 
+@admin_bp.route('points/add/player/<user_id>',methods=['POST'])
+@login_required
+@admin_required
+def add_points(user_id):
+
+    user=User.query.filter_by(id=user_id).first_or_404()
+    user.points+=20
+    db.session.commit()
+    flash('增加积分成功','success')
+    return redirect(url_for('.manage_user'))
+
+
+@admin_bp.route('points/cut/player/<user_id>',methods=['POST'])
+@login_required
+@admin_required
+def cut_points(user_id):
+
+    user=User.query.filter_by(id=user_id).first_or_404()
+    user.points-=20
+    db.session.commit()
+    flash('减少积分成功','success')
+    return redirect(url_for('.manage_user'))
+
+
 
 @admin_bp.route('search/user')
 @login_required

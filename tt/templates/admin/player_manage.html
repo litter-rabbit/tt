@@ -55,6 +55,8 @@
                     <td>{{ player.user.weixin }}</td>
                     <td>{{ moment(player.timestamp).format('LL') }}</td>
                     <td>
+
+
                         <form class="inline" method="post"
                               action="{{ url_for('admin.delete_player',player_id=player.id)}}">
                             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>

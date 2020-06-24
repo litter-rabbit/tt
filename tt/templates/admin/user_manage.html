@@ -55,6 +55,16 @@
                     <td>{{ user.weixin }}</td>
                     <td>{{ moment(user.timestamp).format('LL') }}</td>
                     <td>
+                         <form class="inline" method="post"
+                              action="{{ url_for('admin.cut_points',user_id=user.id)}}">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                            <button type="submit" class="btn btn-danger btn-sm"  >减少积分</button>
+                        </form>
+                         <form class="inline" method="post"
+                              action="{{ url_for('admin.add_points',user_id=user.id)}}">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                            <button type="submit" class="btn btn-success btn-sm"  >增加积分</button>
+                        </form>
                         <form class="inline" method="post"
                               action="{{ url_for('admin.delete_user',user_id=user.id)}}">
                             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
